@@ -1,18 +1,25 @@
-<p align="center">
-  <strong style="font-size:2em;">Sandie</strong><br>
-  Generate a secure password. Build with PreactJS
-</p>
+# Sandie
+Generate a secure password. Build with [PreactJS](https://preactjs.com)
 
-<p align="center">
-  <a href="https://github.com/nyancodeid/sandie"><img
-    alt="Repository"
-    src="https://img.shields.io/badge/github-sandie-green?logo=github&amp;style=flat"
-    style="max-width:100%;"></a>
-</p>
+[![Repository](https://img.shields.io/badge/github-sandie-green?logo=github&style=flat)](https://github.com/nyancodeid/sandie)
+![License MIT](https://img.shields.io/github/license/nyancodeid/sandie)
+[![Issues](https://img.shields.io/github/issues/nyancodeid/sandie)](https://github.com/nyancodeid/sandie/issues)
 
 ## Description
 This application is only an experimental application. Made just for fun and to learn more about PreactJS.
 This application also uses Parcel Bundle
+
+## Run
+clone this repository and run using yarn
+```
+yarn install
+yarn run start
+```
+or using NPM
+```
+npm install
+npm run start
+```
 
 ## Password Format
 For generate password we have 3 different format. They are
