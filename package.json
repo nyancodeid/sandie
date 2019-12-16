@@ -1,0 +1,21 @@
+{
+  "name": "sandie",
+  "version": "1.0.0",
+  "description": "Generate Secure Password Build with Preact",
+  "main": "index.js",
+  "author": "Ryan Aunur Rassyid",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html --open",
+    "build": "parcel build src/index.html",
+    "build:gh-pages": "parcel build src/index.html --no-source-maps --public-url 'https://nyancodeid.github.io/sandie' && git subtree push --prefix dist origin gh-pages"
+  },
+  "dependencies": {
+    "preact": "^10.1.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "preact-material-components": "^1.6.1",
+    "sass": "^1.23.7"
+  }
+}

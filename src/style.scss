@@ -1,0 +1,63 @@
+body {
+  font-family: Roboto, sans-serif;
+  letter-spacing: 0.01786em;
+  background-color: beige;
+
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#header {
+  text-align: center;
+  padding: 2em 0;
+
+  > span {
+    font-size: 1em;  
+    color: #9E9E9E;
+  }
+  > h1 {
+    color: #018786;
+    font-size: 2em;
+    margin: 0;
+  }
+}
+
+#form {
+  .padding-8 {
+    padding: 8px;
+    background-color: white;
+
+    .password-display {
+      appearance: none;
+      border: none;
+      height: 48px;
+      width: calc(100% - (62px * 2));
+      padding: 12px;
+      color: #506175;
+      font-family: monospace;
+      font-size: 1.85556rem;
+      text-align: left;
+      outline: none;
+    }
+
+    #control .password-format,
+    #control .password-char {
+      > div {
+        display: flex;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 720px;
+  }
+}
