@@ -94,14 +94,23 @@ export default class PasswordForm extends Component {
    * @param {String} char ex. "lowecase", "uppercase"
    * @param {Boolean} checked ex. true, false
    */
-  onCharChanges (char, checked) {
+  onCharChanges (char, checked, disabled) {
     let chars = this.state.chars
+    let charKeys = Object.keys(chars)
 
-    Object.keys(chars).forEach(id => {
+    charKeys.forEach(id => {
       chars[id] = (id === char) ? checked : chars[id]
     })
     const charCheckbox = this.state.charCheckbox.map(checkbox => {
-      return { ...checkbox, checked: (checkbox.id === char) ? checked : checkbox.checked }
+      if (typeof disabled !== "undefined") {
+        return { ...checkbox, 
+          checked: (checkbox.id === char) ? checked : checkbox.checked,
+          disabled: (disabled.id === checkbox.id) ? true : false }
+      } else {
+        return { ...checkbox, 
+          checked: (checkbox.id === char) ? checked : checkbox.checked,
+          disabled: false }
+      }
     })
 
     // passwordController called when setState was complete (callabck)

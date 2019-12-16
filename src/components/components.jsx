@@ -35,9 +35,15 @@ export const PasswordFormat = ({ formats, onChange }) => {
   })
 }
 export const PasswordChar = ({ chars, onChange }) => {
+  const disabled = []
+
   const onChangeValue = function() {
-    console.log(this.checked)
-    onChange(this.selected, this.checked)
+    chars.forEach((char) => {
+      const checked = (char.id === this.selected) ? this.checked : char.checked
+      if (checked) disabled.push(char)
+    })
+
+    onChange(this.selected, this.checked, (disabled.length === 1) ? disabled[0] : undefined)
   }
   
   return chars.map((option, i) => {
@@ -47,6 +53,7 @@ export const PasswordChar = ({ chars, onChange }) => {
           id={`checkbox-${i}`}
           name="Controlled Checkbox"
           checked={option.checked}
+          disabled={option.disabled}
           onChange={onChangeValue.bind({ selected: option.id, checked: !option.checked })}
         />
         <label for={`checkbox-${i}`}>{option.name}</label>

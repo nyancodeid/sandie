@@ -5218,16 +5218,19 @@ var generatePassword = function generatePassword(options) {
   };
   var charset = Object.keys(options.chars).filter(function (char) {
     return options.chars[char] && char !== "symbols";
-  });
+  }); // calculate symbol char must be 20% of password length
+
   var symbolCount = !options.formats.easyToSay && options.chars.symbols ? Math.round(0.2 * options.length) : 0;
 
   if (options.formats.easyToSay) {
+    // remove number and symbol
     charset = charset.filter(function (char) {
       return char != "numbers";
     }).map(function (char) {
       return chars[char];
     });
   } else if (options.formats.easyToRead) {
+    // remove ambigu char like i L 1 0 o I L O
     charset = charset.map(function (char) {
       return chars[char].replace(/[il10oILO]/g, '');
     });
@@ -5238,15 +5241,25 @@ var generatePassword = function generatePassword(options) {
   }
 
   var allCharCount = options.length - symbolCount;
-  var generatedSymbol = chars.symbols.split("").sort(randomSort).slice(0, symbolCount).join("");
+  symbolCount = charset.length === 0 ? options.length : symbolCount;
+  var generatedSymbol = "";
+
+  if (symbolCount > 0) {
+    while (generatedSymbol.length < symbolCount) {
+      generatedSymbol += chars.symbols.charAt(Math.floor(Math.random() * chars.symbols.length));
+    }
+  }
+
   var generated = "";
 
-  while (generated.length < allCharCount) {
-    charset.forEach(function (char) {
-      if (generated.length < allCharCount) {
-        generated += char.charAt(Math.floor(Math.random() * char.length));
-      }
-    });
+  if (charset.length > 0) {
+    while (generated.length < allCharCount) {
+      charset.forEach(function (char) {
+        if (generated.length < allCharCount) {
+          generated += char.charAt(Math.floor(Math.random() * char.length));
+        }
+      });
+    }
   }
 
   generated += generatedSymbol;
@@ -7270,10 +7283,16 @@ exports.PasswordFormat = PasswordFormat;
 var PasswordChar = function PasswordChar(_ref2) {
   var chars = _ref2.chars,
       onChange = _ref2.onChange;
+  var disabled = [];
 
   var onChangeValue = function onChangeValue() {
-    console.log(this.checked);
-    onChange(this.selected, this.checked);
+    var _this = this;
+
+    chars.forEach(function (char) {
+      var checked = char.id === _this.selected ? _this.checked : char.checked;
+      if (checked) disabled.push(char);
+    });
+    onChange(this.selected, this.checked, disabled.length === 1 ? disabled[0] : undefined);
   };
 
   return chars.map(function (option, i) {
@@ -7281,6 +7300,7 @@ var PasswordChar = function PasswordChar(_ref2) {
       id: "checkbox-".concat(i),
       name: "Controlled Checkbox",
       checked: option.checked,
+      disabled: option.disabled,
       onChange: onChangeValue.bind({
         selected: option.id,
         checked: !option.checked
@@ -7329,18 +7349,22 @@ var defaultState = {
   charCheckbox: [{
     name: "Uppercase",
     checked: true,
+    disabled: false,
     id: "uppercase"
   }, {
     name: "Lowercase",
     checked: true,
+    disabled: false,
     id: "lowercase"
   }, {
     name: "Numbers",
     checked: true,
+    disabled: false,
     id: "numbers"
   }, {
     name: "Symbols",
     checked: true,
+    disabled: false,
     id: "symbols"
   }]
 };
@@ -7516,15 +7540,24 @@ function (_Component) {
 
   }, {
     key: "onCharChanges",
-    value: function onCharChanges(char, checked) {
+    value: function onCharChanges(char, checked, disabled) {
       var chars = this.state.chars;
-      Object.keys(chars).forEach(function (id) {
+      var charKeys = Object.keys(chars);
+      charKeys.forEach(function (id) {
         chars[id] = id === char ? checked : chars[id];
       });
       var charCheckbox = this.state.charCheckbox.map(function (checkbox) {
-        return _objectSpread({}, checkbox, {
-          checked: checkbox.id === char ? checked : checkbox.checked
-        });
+        if (typeof disabled !== "undefined") {
+          return _objectSpread({}, checkbox, {
+            checked: checkbox.id === char ? checked : checkbox.checked,
+            disabled: disabled.id === checkbox.id ? true : false
+          });
+        } else {
+          return _objectSpread({}, checkbox, {
+            checked: checkbox.id === char ? checked : checkbox.checked,
+            disabled: false
+          });
+        }
       }); // passwordController called when setState was complete (callabck)
       // so we set this method into callback parameter.
 
@@ -7652,7 +7685,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38601" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37125" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

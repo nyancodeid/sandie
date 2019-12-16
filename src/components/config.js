@@ -18,9 +18,9 @@ export const defaultState = {
     symbols: true
   },
   charCheckbox: [
-    { name: "Uppercase", checked: true, id: "uppercase" },
-    { name: "Lowercase", checked: true, id: "lowercase" },
-    { name: "Numbers", checked: true, id: "numbers" },
-    { name: "Symbols", checked: true, id: "symbols" }
+    { name: "Uppercase", checked: true, disabled: false, id: "uppercase" },
+    { name: "Lowercase", checked: true, disabled: false, id: "lowercase" },
+    { name: "Numbers", checked: true, disabled: false, id: "numbers" },
+    { name: "Symbols", checked: true, disabled: false, id: "symbols" }
   ]
 }
