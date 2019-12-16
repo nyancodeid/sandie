@@ -8,7 +8,8 @@
   "scripts": {
     "start": "parcel src/index.html --open",
     "build": "parcel build src/index.html",
-    "build:gh-pages": "parcel build src/index.html --no-source-maps --public-url /sandie/"
+    "build:gh": "parcel build src/index.html --no-source-maps --public-url /sandie/",
+    "push:gh": "git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "preact": "^10.1.0"
